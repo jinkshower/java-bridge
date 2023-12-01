@@ -17,7 +17,7 @@ public class BridgeGame {
     private static final String UPPER_BROKEN = ResultConstant.UPPER_BROKEN.getMessage();
     private static final String LOWER_BROKEN = ResultConstant.LOWER_BROKEN.getMessage();
     private static final String SUCCESS_MESSAGE = "성공";
-    private static final String FAILURE_MESSAGE = "성공";
+    private static final String FAILURE_MESSAGE = "실패";
 
     private final List<String> bridges;
     private List<String> roundResult;
