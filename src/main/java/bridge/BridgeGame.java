@@ -60,6 +60,10 @@ public class BridgeGame {
         return new ArrayList<>(roundResult);
     }
 
+    public boolean isJourneyEnd() {
+        return roundResult.size() == bridges.size();
+    }
+
     public void retry() {
     }
 }

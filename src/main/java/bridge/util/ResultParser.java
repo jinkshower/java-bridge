@@ -23,9 +23,10 @@ public class ResultParser {
     }
 
     private static String addBridge(String bridge, String split) {
+        String blankIncluded = " " + split + " ";
         if (!bridge.isEmpty()) {
-            return bridge + "|" + split;
+            return bridge + "|" + blankIncluded;
         }
-        return bridge + split;
+        return bridge + blankIncluded;
     }
 }

@@ -1,12 +1,12 @@
 package bridge.controller;
 
-import bridge.Application;
 import bridge.BridgeGame;
 import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
 import bridge.InputView;
 import bridge.OutputView;
 import bridge.domain.ApplicationStatus;
+import bridge.domain.GameCommand;
 import bridge.domain.MovingCommand;
 import bridge.util.ExceptionHandler;
 import bridge.util.ResultParser;
@@ -32,8 +32,7 @@ public class GameController {
         Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide = new EnumMap<>(ApplicationStatus.class);
         gameGuide.put(ApplicationStatus.SET_UP, this::setUp);
         gameGuide.put(ApplicationStatus.START_GAME, this::startGame);
-//        gameGuide.put(ApplicationStatus.PLAYING, this::playRound);
-//        gameGuide.put(ApplicationStatus.RETRY_OR_EXIT, this::retryOrExit);
+        gameGuide.put(ApplicationStatus.RETRY_OR_EXIT, this::retryOrExit);
         return gameGuide;
     }
 
@@ -58,9 +57,16 @@ public class GameController {
         return ApplicationStatus.RETRY_OR_EXIT;
     }
 
+    private ApplicationStatus retryOrExit() {
+        GameCommand gameCommand = ExceptionHandler.repeatUntilValid(this::handleGameCommand);
+    }
 
     private MovingCommand handleMoveCommand() {
-        return new MovingCommand(inputView.readGameCommand());
+        return new MovingCommand(inputView.readMoving());
+    }
+
+    private GameCommand handleGameCommand() {
+        return new GameCommand(inputView.readGameCommand());
     }
 
     public void run() {
@@ -73,7 +79,7 @@ public class GameController {
     private ApplicationStatus process(ApplicationStatus applicationStatus) {
         try {
             return gameGuide.get(applicationStatus).get();
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             return ApplicationStatus.APPLICATION_EXIT;
         }
     }
