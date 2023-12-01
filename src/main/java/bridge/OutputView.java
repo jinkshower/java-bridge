@@ -32,6 +32,7 @@ public class OutputView {
     }
 
     public void printFinalNotice() {
+        System.out.println();
         System.out.println("최종 게임 결과");
     }
 }
