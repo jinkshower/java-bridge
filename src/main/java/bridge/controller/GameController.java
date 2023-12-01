@@ -9,7 +9,7 @@ import bridge.domain.ApplicationStatus;
 import bridge.domain.GameCommand;
 import bridge.domain.MovingCommand;
 import bridge.util.ExceptionHandler;
-import bridge.util.ResultParser;
+import bridge.domain.ResultParser;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +96,6 @@ public class GameController {
         try {
             return gameGuide.get(applicationStatus).get();
         } catch (Exception e) {
-            e.printStackTrace();
             return ApplicationStatus.APPLICATION_EXIT;
         }
     }

@@ -1,7 +1,6 @@
-package bridge.util;
+package bridge.domain;
 
 import java.util.List;
-import java.util.StringJoiner;
 
 public class ResultParser {
 
@@ -18,8 +17,7 @@ public class ResultParser {
 
     private static String[] analyzeBridge(String string) {
         String bridge = ResultConstant.of(string).getBridge();
-        String[] split = bridge.split("");
-        return split;
+        return bridge.split("");
     }
 
     private static String addBridge(String bridge, String split) {
