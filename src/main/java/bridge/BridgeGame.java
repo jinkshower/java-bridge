@@ -23,12 +23,10 @@ public class BridgeGame {
 
     public void move(MovingCommand movingCommand) {
         if (isMovable(movingCommand)) {
-            bridges.set(bridgeIndex, "O");
             recordMoving(movingCommand);
             bridgeIndex++;
             return;
         }
-        bridges.set(bridgeIndex, "X");
         recordFailure(movingCommand);
         bridgeIndex++;
     }
@@ -56,7 +54,7 @@ public class BridgeGame {
     }
 
     public boolean isGameOver() {
-        return bridgeIndex == bridges.size() || bridges.contains("X");
+        return bridgeIndex == bridges.size() || roundResult.contains("U-X") || roundResult.contains("D-X");
     }
 
     public List<String> currentBridge() {
@@ -64,7 +62,13 @@ public class BridgeGame {
     }
 
     public boolean isJourneyEnd() {
-        return roundResult.size() == bridges.stream().filter(s -> s.equals("O")).count();
+        return bridges.size() == roundResult.stream()
+                .filter(this::isNotBroken)
+                .count();
+    }
+
+    private boolean isNotBroken(String result) {
+        return result.equals("U-O") || result.equals("D-O");
     }
 
     public String result() {
