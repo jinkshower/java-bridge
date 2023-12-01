@@ -32,7 +32,7 @@ public class GameController {
         Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide = new EnumMap<>(ApplicationStatus.class);
         gameGuide.put(ApplicationStatus.SET_UP, this::setUp);
         gameGuide.put(ApplicationStatus.START_GAME, this::startGame);
-        gameGuide.put(ApplicationStatus.RETRY_OR_EXIT, this::retryOrExit);
+        gameGuide.put(ApplicationStatus.RETRY, this::retryOrExit);
         return gameGuide;
     }
 
@@ -54,7 +54,10 @@ public class GameController {
             bridgeGame.move(movingCommand);
             outputView.printMap(ResultParser.convertResultToString(bridgeGame.currentBridge()));
         }
-        return ApplicationStatus.RETRY_OR_EXIT;
+        if (bridgeGame.isJourneyEnd()) {
+            return ApplicationStatus.OUTCOME;
+        }
+        return ApplicationStatus.RETRY;
     }
 
     private ApplicationStatus retryOrExit() {

@@ -4,7 +4,8 @@ public enum ApplicationStatus {
 
     SET_UP,
     START_GAME,
-    RETRY_OR_EXIT,
+    RETRY,
+    OUTCOME,
     APPLICATION_EXIT;
 
     public boolean playable() {
