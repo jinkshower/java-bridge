@@ -9,16 +9,14 @@ import java.util.List;
  */
 public class BridgeGame {
 
-    private List<String> bridges;
+    private final List<String> bridges;
     private List<String> roundResult;
     private int bridgeIndex = 0;
     private int tryCount = 1;
-    private final List<String> initialBridges;
 
     public BridgeGame(List<String> bridges) {
         this.bridges = new ArrayList<>(bridges);
         this.roundResult = new ArrayList<>();
-        this.initialBridges = new ArrayList<>(bridges);
     }
 
     public void move(MovingCommand movingCommand) {
@@ -84,7 +82,6 @@ public class BridgeGame {
 
     public void retry() {
         roundResult = new ArrayList<>();
-        bridges = initialBridges;
         bridgeIndex = 0;
         tryCount++;
     }
