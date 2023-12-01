@@ -19,4 +19,7 @@ public class MovingCommand {
         return movingCommand.equals("U") || movingCommand.equals("D");
     }
 
+    public String getMovingCommand() {
+        return movingCommand;
+    }
 }

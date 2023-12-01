@@ -49,7 +49,12 @@ public class GameController {
     }
 
     private ApplicationStatus startGame() {
-        MovingCommand movingCommand = ExceptionHandler.repeatUntilValid(this::handleMoveCommand);
+        while (!bridgeGame.isGameOver()) {
+            MovingCommand movingCommand = ExceptionHandler.repeatUntilValid(this::handleMoveCommand);
+            bridgeGame.move(movingCommand);
+            outputView.printMap(bridgeGame.currentBridge());
+        }
+        return ApplicationStatus.RETRY_OR_EXIT;
     }
 
 
