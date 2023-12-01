@@ -1,6 +1,7 @@
 package bridge;
 
 import bridge.domain.MovingCommand;
+import bridge.domain.ResultConstant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,15 @@ import java.util.List;
  * 다리 건너기 게임을 관리하는 클래스
  */
 public class BridgeGame {
+
+    private static final String UPPER_SAFE_BRIDGE = "U";
+    private static final String LOWER_SAFE_BRIDGE = "D";
+    private static final String UPPER_TRAVEL = ResultConstant.UPPER_TRAVEL.getMessage();
+    private static final String LOWER_TRAVEL = ResultConstant.LOWER_TRAVEL.getMessage();
+    private static final String UPPER_BROKEN = ResultConstant.UPPER_BROKEN.getMessage();
+    private static final String LOWER_BROKEN = ResultConstant.LOWER_BROKEN.getMessage();
+    private static final String SUCCESS_MESSAGE = "성공";
+    private static final String FAILURE_MESSAGE = "성공";
 
     private final List<String> bridges;
     private List<String> roundResult;
@@ -30,20 +40,20 @@ public class BridgeGame {
     }
 
     private void recordMoving(MovingCommand movingCommand) {
-        if (movingCommand.getMovingCommand().equals("U")) {
-            roundResult.add("U-O");
+        if (movingCommand.getMovingCommand().equals(UPPER_SAFE_BRIDGE)) {
+            roundResult.add(UPPER_TRAVEL);
         }
-        if (movingCommand.getMovingCommand().equals("D")) {
-            roundResult.add("D-O");
+        if (movingCommand.getMovingCommand().equals(LOWER_SAFE_BRIDGE)) {
+            roundResult.add(LOWER_TRAVEL);
         }
     }
 
     private void recordFailure(MovingCommand movingCommand) {
-        if (movingCommand.getMovingCommand().equals("U")) {
-            roundResult.add("U-X");
+        if (movingCommand.getMovingCommand().equals(UPPER_SAFE_BRIDGE)) {
+            roundResult.add(UPPER_BROKEN);
         }
-        if (movingCommand.getMovingCommand().equals("D")) {
-            roundResult.add("D-X");
+        if (movingCommand.getMovingCommand().equals(LOWER_SAFE_BRIDGE)) {
+            roundResult.add(LOWER_BROKEN);
         }
     }
 
@@ -52,7 +62,8 @@ public class BridgeGame {
     }
 
     public boolean isGameOver() {
-        return bridgeIndex == bridges.size() || roundResult.contains("U-X") || roundResult.contains("D-X");
+        return bridgeIndex == bridges.size() ||
+                roundResult.contains(UPPER_BROKEN) || roundResult.contains(LOWER_BROKEN);
     }
 
     public List<String> currentBridge() {
@@ -66,14 +77,14 @@ public class BridgeGame {
     }
 
     private boolean isNotBroken(String result) {
-        return result.equals("U-O") || result.equals("D-O");
+        return result.equals(UPPER_TRAVEL) || result.equals(LOWER_TRAVEL);
     }
 
     public String result() {
         if (isJourneyEnd()) {
-            return "성공";
+            return SUCCESS_MESSAGE;
         }
-        return "실패";
+        return FAILURE_MESSAGE;
     }
 
     public int getTryCount() {

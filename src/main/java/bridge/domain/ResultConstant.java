@@ -24,6 +24,10 @@ public enum ResultConstant {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 유효하지 않습니다"));
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public String getBridge() {
         return bridge;
     }

@@ -9,6 +9,11 @@ import java.util.List;
 public class BridgeMaker {
 
     private static final int UPPER_BRIDGE = 1;
+    private static final String UPPER_SAFE_BRIDGE = "U";
+    private static final String LOWER_SAFE_BRIDGE = "D";
+    private static final int MIN_BRIDGE_LENGTH = 3;
+    private static final int MAX_BRIDGE_LENGTH = 20;
+
     private final BridgeNumberGenerator bridgeNumberGenerator;
 
     public BridgeMaker(BridgeNumberGenerator bridgeNumberGenerator) {
@@ -30,13 +35,13 @@ public class BridgeMaker {
 
     private String decideBridge(int randomNumber) {
         if (randomNumber == UPPER_BRIDGE) {
-            return "U";
+            return UPPER_SAFE_BRIDGE;
         }
-        return "D";
+        return LOWER_SAFE_BRIDGE;
     }
 
     private void validate(int size) {
-        if (size < 3 || size > 20) {
+        if (size < MIN_BRIDGE_LENGTH || size > MAX_BRIDGE_LENGTH) {
             throw new IllegalArgumentException("[ERROR] 유효한 다리 길이가 이닙니다");
         }
     }
