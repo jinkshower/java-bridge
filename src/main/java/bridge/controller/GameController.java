@@ -9,6 +9,7 @@ import bridge.OutputView;
 import bridge.domain.ApplicationStatus;
 import bridge.domain.MovingCommand;
 import bridge.util.ExceptionHandler;
+import bridge.util.ResultParser;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,8 @@ public class GameController {
         Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide = new EnumMap<>(ApplicationStatus.class);
         gameGuide.put(ApplicationStatus.SET_UP, this::setUp);
         gameGuide.put(ApplicationStatus.START_GAME, this::startGame);
-        gameGuide.put(ApplicationStatus.PLAYING, this::playRound);
-        gameGuide.put(ApplicationStatus.RETRY_OR_EXIT, this::retryOrExit);
+//        gameGuide.put(ApplicationStatus.PLAYING, this::playRound);
+//        gameGuide.put(ApplicationStatus.RETRY_OR_EXIT, this::retryOrExit);
         return gameGuide;
     }
 
@@ -52,7 +53,7 @@ public class GameController {
         while (!bridgeGame.isGameOver()) {
             MovingCommand movingCommand = ExceptionHandler.repeatUntilValid(this::handleMoveCommand);
             bridgeGame.move(movingCommand);
-            outputView.printMap(bridgeGame.currentBridge());
+            outputView.printMap(ResultParser.convertResultToString(bridgeGame.currentBridge()));
         }
         return ApplicationStatus.RETRY_OR_EXIT;
     }
@@ -73,7 +74,7 @@ public class GameController {
         try {
             return gameGuide.get(applicationStatus).get();
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            return ApplicationStatus.APPLICATION_EXIT;
         }
     }
 }
