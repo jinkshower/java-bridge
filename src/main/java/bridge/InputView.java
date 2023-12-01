@@ -14,7 +14,7 @@ public class InputView {
         System.out.println("다리의 길이를 입력해주세요.");
         try {
             return Integer.parseInt(Console.readLine());
-        } catch (NumberFormatException e ) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 유효한 입력이 아닙니다.");
         }
     }

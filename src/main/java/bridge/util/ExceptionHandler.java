@@ -4,7 +4,8 @@ import java.util.function.Supplier;
 
 public class ExceptionHandler {
 
-    private ExceptionHandler() {}
+    private ExceptionHandler() {
+    }
 
     public static <T> T repeatUntilValid(Supplier<T> supplier) {
         while (true) {

@@ -7,7 +7,7 @@ public class ResultParser {
     public static String convertResultToString(List<String> roundResult) {
         String upperBridge = "";
         String lowerBridge = "";
-        for (String string: roundResult) {
+        for (String string : roundResult) {
             String[] split = analyzeBridge(string);
             upperBridge = addBridge(upperBridge, split[0]);
             lowerBridge = addBridge(lowerBridge, split[1]);
