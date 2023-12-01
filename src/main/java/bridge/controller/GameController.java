@@ -33,6 +33,7 @@ public class GameController {
         gameGuide.put(ApplicationStatus.SET_UP, this::setUp);
         gameGuide.put(ApplicationStatus.START_GAME, this::startGame);
         gameGuide.put(ApplicationStatus.RETRY, this::retryOrExit);
+        gameGuide.put(ApplicationStatus.OUTCOME, this::handleOutcome);
         return gameGuide;
     }
 
@@ -62,6 +63,18 @@ public class GameController {
 
     private ApplicationStatus retryOrExit() {
         GameCommand gameCommand = ExceptionHandler.repeatUntilValid(this::handleGameCommand);
+        if (!gameCommand.isRetry()) {
+            return ApplicationStatus.OUTCOME;
+        }
+        bridgeGame.retry();
+        return ApplicationStatus.START_GAME;
+    }
+
+    private ApplicationStatus handleOutcome() {
+        outputView.printFinalNotice();
+        outputView.printMap(ResultParser.convertResultToString(bridgeGame.currentBridge()));
+        outputView.printResult(bridgeGame.result(), bridgeGame.getTryCount());
+        return ApplicationStatus.APPLICATION_EXIT;
     }
 
     private MovingCommand handleMoveCommand() {
@@ -82,7 +95,8 @@ public class GameController {
     private ApplicationStatus process(ApplicationStatus applicationStatus) {
         try {
             return gameGuide.get(applicationStatus).get();
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return ApplicationStatus.APPLICATION_EXIT;
         }
     }

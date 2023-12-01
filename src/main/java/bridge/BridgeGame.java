@@ -10,8 +10,9 @@ import java.util.List;
 public class BridgeGame {
 
     private final List<String> bridges;
-    private final List<String> roundResult;
+    private List<String> roundResult;
     private int bridgeIndex = 0;
+    private int tryCount = 1;
 
     public BridgeGame(List<String> bridges) {
         this.bridges = new ArrayList<>(bridges);
@@ -61,9 +62,23 @@ public class BridgeGame {
     }
 
     public boolean isJourneyEnd() {
-        return roundResult.size() == bridges.size();
+        return roundResult.size() == bridges.stream().filter(s -> s.equals("O")).count();
+    }
+
+    public String result() {
+        if (isJourneyEnd()) {
+            return "성공";
+        }
+        return "실패";
+    }
+
+    public int getTryCount() {
+        return tryCount;
     }
 
     public void retry() {
+        roundResult = new ArrayList<>();
+        bridgeIndex = 0;
+        tryCount++;
     }
 }
