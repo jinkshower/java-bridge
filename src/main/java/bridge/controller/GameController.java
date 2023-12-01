@@ -1,11 +1,13 @@
 package bridge.controller;
 
 import bridge.Application;
+import bridge.BridgeGame;
 import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
 import bridge.InputView;
 import bridge.OutputView;
 import bridge.domain.ApplicationStatus;
+import bridge.domain.MovingCommand;
 import bridge.util.ExceptionHandler;
 import java.util.EnumMap;
 import java.util.List;
@@ -17,6 +19,7 @@ public class GameController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<ApplicationStatus, Supplier<ApplicationStatus>> gameGuide;
+    private BridgeGame bridgeGame;
 
     public GameController(InputView inputView, OutputView outputVIew) {
         this.inputView = inputView;
@@ -36,6 +39,7 @@ public class GameController {
     private ApplicationStatus setUp() {
         outputView.printBeginNotice();
         List<String> bridges = ExceptionHandler.repeatUntilValid(this::handleBridgeSize);
+        bridgeGame = new BridgeGame(bridges);
         return ApplicationStatus.START_GAME;
     }
 
@@ -44,9 +48,17 @@ public class GameController {
         return bridgeMaker.makeBridge(inputView.readBridgeSize());
     }
 
+    private ApplicationStatus startGame() {
+        MovingCommand movingCommand = ExceptionHandler.repeatUntilValid(this::handleMoveCommand);
+    }
+
+
+    private MovingCommand handleMoveCommand() {
+        return new MovingCommand(inputView.readGameCommand());
+    }
 
     public void run() {
-        ApplicationStatus applicationStatus = process(ApplicationStatus.SET_UP_GAME);
+        ApplicationStatus applicationStatus = process(ApplicationStatus.SET_UP);
         while (applicationStatus.playable()) {
             applicationStatus = process(applicationStatus);
         }
