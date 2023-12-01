@@ -2,25 +2,25 @@ package bridge.domain;
 
 public class GameCommand {
 
-    private final String movingCommand;
+    private final String gameCommand;
 
     public GameCommand(String gameCommand) {
         validate(gameCommand);
-        this.movingCommand = gameCommand;
+        this.gameCommand = gameCommand;
     }
 
     private void validate(String gameCommand) {
-        if (!isValidCommand(movingCommand)) {
+        if (!isValidCommand(gameCommand)) {
             throw new IllegalArgumentException("[ERROR] 유효한 입력이 아닙니다.");
         }
     }
 
     private boolean isValidCommand(String gameCommand) {
-        return movingCommand.equals("R") || movingCommand.equals("Q");
+        return gameCommand.equals("R") || gameCommand.equals("Q");
     }
 
     public boolean isRetry() {
-        return movingCommand == "R";
+        return gameCommand.equals("R");
     }
 
 }
